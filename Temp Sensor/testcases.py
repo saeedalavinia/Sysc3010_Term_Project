@@ -8,9 +8,38 @@ from allinone import red
 from allinone import setup
 import wiringpi2 as wiringpi
 from time import sleep
-#below you will find 4 test cases to show if the called method correctly functioning
+from readtempnow import readtempnow
 
-exvalue="Expected Result: only the Green Led is flashin "
+exvalue="Expected Result: only the Green Led is flashing "
+                                                                                                
+print "\n setup will be called "+exvalue+"\n"
+
+
+setup()
+
+#test the temp sensor only
+exvalue="Expected Result: Temp within the room temp limits(20 to 27)"
+temp=readtempnow()
+if(temp> 20 and temp <27):
+                 print "\n it is within the limits and the reading is "+str(temp)+"\n"
+else:
+                print "\n it is not within the limits and the reading is "+str(temp)+"\n"           
+
+
+#test the green only
+exvalue="Expected Result: The green will be on for 3 sec"
+green(1)
+sleep(3)
+green(2)
+#test the red only
+exvalue="Expected Result: The redwill be on for 3 sec"
+red(1)
+sleep(3)
+red(2)
+
+#below you will find 4 test cases for(temp+led) to show if the called method correctly functioning 
+
+exvalue="Expected Result: only the Green Led is flashing "
                                                                                                 
 print "\n setup will be called "+exvalue+"\n"
 
