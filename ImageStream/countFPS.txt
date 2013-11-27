@@ -1,0 +1,11 @@
+#!/bin/sh
+#Count number of files in buffer per second to get FPS result
+
+while true
+do
+	echo "press Ctrl+C to stop script"
+	find /tmp/stream -type -f | wc -l
+	sleep 1
+done
+exit 0
+	

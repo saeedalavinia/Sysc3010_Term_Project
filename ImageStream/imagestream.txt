@@ -1,0 +1,18 @@
+#!/bin/sh
+#Automatic Video Stream Script
+#Raditya Budianto, 100836539
+
+
+echo "MJPEG video stream script"
+
+
+#don't declare makedir of this directory more than 1
+mkdir /tmp/stream
+
+#don't call this two function below before directory /tmp/stream is created
+
+raspistill --nopreview -w 640 -h -480 -q 5 -o /tmp/stream/pic.jpg -tl 100 -t 999999999 -th 0:0:0 &
+LD_LIBRARY_PATH=/usr/local/lib mjpeg_Streamer -i "input_file.so -f /tmp/stream -n pic.jpg" -o "output_http.so -w /usr/local/www -p 8554" &
+
+exit 0
+
