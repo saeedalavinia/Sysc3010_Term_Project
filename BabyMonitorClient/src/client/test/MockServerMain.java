@@ -11,12 +11,12 @@ public class MockServerMain {
 	public Socket socket;
 	public ServerSocket serversocket;
 
-	public void clientStart() throws InterruptedException {
+	public void serverStart() throws InterruptedException {
 
 		try {
 			serversocket = new ServerSocket(5000);
 			socket = serversocket.accept();
-
+			System.out.println(socket.getInetAddress());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -24,15 +24,8 @@ public class MockServerMain {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.sendmsgs();
 
-		p.close();
-		try {
-			socket.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 	}
 
 	public void sendTemp(String t) {
@@ -45,6 +38,15 @@ public class MockServerMain {
 			e.printStackTrace();
 		}
 
+	}
+	public void closeConnection(){
+		p.close();
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void sendalarm(String a) {
@@ -65,6 +67,11 @@ public class MockServerMain {
 			p.println("<temp>3</temp>");
 			Thread.sleep(2000);
 			p.println("<alarm>true</alarm> ");
+			p.println("<alarm>true</alarm> ");
+			p.println("<alarm>true</alarm> ");
+			p.println("<alarm>true</alarm> ");
+			p.println("<alarm>true</alarm> ");
+			p.println("<alarm>true</alarm> ");
 			p.println("<temp>12</temp>");
 			Thread.sleep(2000);
 			p.println("<temp>18</temp>");
@@ -81,6 +88,7 @@ public class MockServerMain {
 			p.println("<temp>20</temp>");
 			Thread.sleep(2000);
 			p.println("<temp>-7</temp>");
+			p.println("<alarm>true</alarm> ");
 			Thread.sleep(2000);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -92,8 +100,10 @@ public class MockServerMain {
 	public static void main(String[] args) throws InterruptedException {
 
 		MockServerMain msm = new MockServerMain();
-		msm.clientStart();
-
+		msm.serverStart();
+		msm.sendmsgs();
+		msm.closeConnection();
+		
 	}
 
 }

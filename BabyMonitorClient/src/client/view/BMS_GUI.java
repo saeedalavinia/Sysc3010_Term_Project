@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import client.controller.MainController;
-import client.model.NoiseAlarm;
 
 public class BMS_GUI {
 
@@ -17,6 +16,8 @@ public class BMS_GUI {
 	private MainController controller = new MainController(this);
 	private JButton toggleUnits;
 	private JButton alarmSoundOff;
+	private JPanel noiseAlarmPanel ;
+	private JPanel ThermometerPanel ;
 	/**
 	 * Create the application.
 	 */
@@ -34,8 +35,8 @@ public class BMS_GUI {
 		frame.setBounds(100, 100, 1000, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		//JPanel panel = ThermometerBarChart.getInstance().getChartPanel();
-		JPanel panel = new JPanel();
+		
+		//JPanel panel = new JPanel();
 
 		JPanel panel_1 = new JPanel();
 
@@ -54,7 +55,7 @@ public class BMS_GUI {
 		toggleUnits.addActionListener(controller);
 		alarmSoundOff.addActionListener(controller);
 		
-		JPanel panel_3 = NoiseAlarm.getInstance();
+	
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -67,7 +68,7 @@ public class BMS_GUI {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 353, GroupLayout.PREFERRED_SIZE)
+								.addComponent(ThermometerPanel, GroupLayout.PREFERRED_SIZE, 353, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblTemperature))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -78,7 +79,7 @@ public class BMS_GUI {
 										.addComponent(lblVoiceAlarm)
 										.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 585, GroupLayout.PREFERRED_SIZE)
 										.addComponent(alarmSoundOff)
-										.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)))))
+										.addComponent(noiseAlarmPanel, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)))))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(toggleUnits)))
@@ -100,8 +101,8 @@ public class BMS_GUI {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblVoiceAlarm)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE))
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 638, GroupLayout.PREFERRED_SIZE))
+							.addComponent(noiseAlarmPanel, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE))
+						.addComponent(ThermometerPanel, GroupLayout.PREFERRED_SIZE, 638, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(toggleUnits)
@@ -123,5 +124,20 @@ public class BMS_GUI {
 	}
 	public void setAlarmSoundOff(JButton alarmSoundOff) {
 		this.alarmSoundOff = alarmSoundOff;
+	}
+	public JPanel getNoiseAlarmPanel() {
+		return noiseAlarmPanel;
+	}
+	public void setNoiseAlarmPanel(JPanel noiseAlarmPanel) {
+		this.noiseAlarmPanel = noiseAlarmPanel;
+	}
+	public JPanel getThermometerPanel() {
+		return ThermometerPanel;
+	}
+	public void setThermometerPanel(JPanel thermometerPanel) {
+		ThermometerPanel = thermometerPanel;
+	}
+	public MainController getController() {
+		return controller;
 	}
 }

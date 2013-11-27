@@ -14,15 +14,17 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer3D;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import client.view.BMS_GUI;
+
 public class ThermometerBarChart {
 	private static DefaultCategoryDataset categoryDataset = new DefaultCategoryDataset();
-	private static ThermometerBarChart tbc = null;
 	private static JFreeChart chart;
 	private Integer temperature;
 	private boolean Farenheit = false;
+	private BMS_GUI gui;
 
 	@SuppressWarnings("deprecation")
-	private ThermometerBarChart() {
+	public ThermometerBarChart(BMS_GUI gui) {
 
 		chart = ChartFactory.createBarChart3D(null, "Current Temperature",
 				"Centigrade", categoryDataset, PlotOrientation.VERTICAL, true,
@@ -42,14 +44,12 @@ public class ThermometerBarChart {
 		NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();
 		numberaxis.setUpperMargin(60);
 		numberaxis.setRange(-10, 50);
-	}
 
-	public static ThermometerBarChart getInstance() {
-		if (tbc == null)
-			tbc = new ThermometerBarChart();
-
-		return tbc;
-
+		// append the thermometer panel to main gui
+		if (gui != null) {
+			this.setGui(gui);
+			this.gui.setThermometerPanel(this.getChartPanel());
+		}
 	}
 
 	public JPanel getChartPanel() {
@@ -133,6 +133,14 @@ public class ThermometerBarChart {
 
 	public void setFarenheit(boolean farenheit) {
 		Farenheit = farenheit;
+	}
+
+	public BMS_GUI getGui() {
+		return gui;
+	}
+
+	public void setGui(BMS_GUI gui) {
+		this.gui = gui;
 	}
 
 }

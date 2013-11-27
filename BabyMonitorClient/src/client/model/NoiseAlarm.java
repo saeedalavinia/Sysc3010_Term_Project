@@ -12,6 +12,9 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
+
+import client.view.BMS_GUI;
+
 //import the sun.audio package
 
 @SuppressWarnings("serial")
@@ -19,11 +22,28 @@ public class NoiseAlarm extends JPanel {
 
 	private BufferedImage image;
 	private Clip clip;
-	private static NoiseAlarm na = null;
+	private boolean status = false;
 	private boolean alarmsound = true;
-	private boolean alarmPlaying=false;
+	private boolean alarmPlaying = true;
+	private BMS_GUI gui;
 
-	private NoiseAlarm() {
+	public NoiseAlarm(BMS_GUI gui) {
+		if (gui != null) {
+			this.setGui(gui);
+			gui.setNoiseAlarmPanel(this);
+		}
+		try {
+			clip = AudioSystem.getClip();
+			File file = new File("src/rsc/beeper_alarm.wav");
+			AudioInputStream ais;
+			ais = AudioSystem.getAudioInputStream(file);
+			clip.open(ais);
+		} catch (LineUnavailableException | UnsupportedAudioFileException
+				| IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// getAudioInputStream() also accepts a File or InputStream
 
 		try {
 			image = ImageIO.read(new File("src/rsc/greenAlarm.png"));
@@ -33,24 +53,16 @@ public class NoiseAlarm extends JPanel {
 		}
 	}
 
-	public static NoiseAlarm getInstance() {
-		if (na == null) {
-			na = new NoiseAlarm();
-
-		}
-		return na;
-
-	}
-
 	public void notify(Boolean status) {
+		this.setStatus(status);
 		try {
-			if (status){
+			if (this.isShowing()) {
 				image = ImageIO.read(new File("src/rsc/redAlarm.png"));
-				if(this.isAlarmPlaying())
+				if (this.isAlarmPlaying())
 					this.playAlarm();
-			}else{
+			} else {
 				image = ImageIO.read(new File("src/rsc/greenAlarm.png"));
-				
+
 			}
 		} catch (IOException ex) {
 			System.err.println("Image file not found..."); // handle
@@ -58,24 +70,10 @@ public class NoiseAlarm extends JPanel {
 		}
 		this.repaint();
 	}
- 
+
 	public void playAlarm() {
-		//this.setAlarmPlaying(true);
-		
-		try {
-			clip = AudioSystem.getClip();
-	        // getAudioInputStream() also accepts a File or InputStream
-			File file= new File("src/rsc/beeper_alarm.wav" );
-	        AudioInputStream ais;
-	        ais = AudioSystem.getAudioInputStream(file );
-				clip.open(ais);
-				clip.start();
-			
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
+
+		clip.start();
 
 	}
 
@@ -100,6 +98,22 @@ public class NoiseAlarm extends JPanel {
 
 	public void setAlarmPlaying(boolean alarmPlaying) {
 		this.alarmPlaying = alarmPlaying;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public BMS_GUI getGui() {
+		return gui;
+	}
+
+	public void setGui(BMS_GUI gui) {
+		this.gui = gui;
 	}
 
 }

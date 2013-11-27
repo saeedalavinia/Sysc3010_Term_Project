@@ -10,18 +10,28 @@ import client.model.ThermometerBarChart;
 import client.view.BMS_GUI;
 
 public class ClientMain {
-	Socket connectionSocket;
-	BufferedReader buffReader;
-	String receivedMsg;
-	volatile boolean stop = false;
-	String parsedTemperature, alarm, parsedTag;
-	BMS_GUI gui;
+	private Socket connectionSocket;
+	private BufferedReader buffReader;
+	private String receivedMsg;
+	private volatile boolean stop = false;
+	private ThermometerBarChart tbc;
+	private NoiseAlarm na;
 
-	public ClientMain() {
+	public ClientMain(NoiseAlarm na, ThermometerBarChart tbc) {
+		this.na=na;
+		this.tbc=tbc;
+	}
+
+	public void connect() {
 
 		try {
 			connectionSocket = new Socket("Localhost", 5000);
-			gui = new BMS_GUI();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			buffReader = new BufferedReader(new InputStreamReader(
+					connectionSocket.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -29,12 +39,7 @@ public class ClientMain {
 	}
 
 	public void receiveMsg() {
-		try {
-			buffReader = new BufferedReader(new InputStreamReader(
-					connectionSocket.getInputStream()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 		while (!stop) {
 			// receive msg
 			try {
@@ -63,16 +68,27 @@ public class ClientMain {
 					+ "C");
 
 			// update thermometer gui
-			ThermometerBarChart.getInstance().notify(
+			tbc.notify(
 					Integer.valueOf(parsedFragments[2]));
 
 		}
 
 		// if xml tag was alarm
 		if (parsedFragments[1].equalsIgnoreCase("alarm")) {
+			
+			
+			if(!parsedFragments[2].equalsIgnoreCase("true")&& !parsedFragments[2].equalsIgnoreCase("false")){
+				try {
+					throw new Exception("non boolean input Detected");
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return;
+				}
+			}
 			// update the alarm status
-			NoiseAlarm.getInstance()
-					.notify(Boolean.valueOf(parsedFragments[2]));
+			na.notify(Boolean.valueOf(parsedFragments[2]));
 
 			System.out.println("Voice alarm is: " + parsedFragments[2]);
 
@@ -80,7 +96,10 @@ public class ClientMain {
 	}
 
 	public static void main(String[] args) {
-		ClientMain client = new ClientMain();
+		BMS_GUI gui = new BMS_GUI();
+		
+		ClientMain client = new ClientMain(gui.getController().getNa(),gui.getController().getTbc());
+		client.connect();
 		client.receiveMsg();
 
 	}
