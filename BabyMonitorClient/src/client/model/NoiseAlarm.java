@@ -55,6 +55,7 @@ public class NoiseAlarm extends JPanel {
 
 	public void notify(Boolean status) {
 		this.setStatus(status);
+		// load the correct pic wrt current status
 		try {
 			if (this.isShowing()) {
 				image = ImageIO.read(new File("src/rsc/redAlarm.png"));
@@ -68,7 +69,9 @@ public class NoiseAlarm extends JPanel {
 			System.err.println("Image file not found..."); // handle
 															// exception...
 		}
-		this.repaint();
+		
+		//update gui
+		this.getGui().repaint();
 	}
 
 	public void playAlarm() {

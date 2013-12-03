@@ -69,27 +69,32 @@ public class MockServerMain {
 			p.println("<alarm>true</alarm> ");
 			p.println("<alarm>true</alarm> ");
 			p.println("<alarm>true</alarm> ");
+			Thread.sleep(2000);
 			p.println("<alarm>true</alarm> ");
 			p.println("<alarm>true</alarm> ");
+			Thread.sleep(2000);
 			p.println("<alarm>true</alarm> ");
 			p.println("<temp>12</temp>");
 			Thread.sleep(2000);
 			p.println("<temp>18</temp>");
-			Thread.sleep(2000);
+			Thread.sleep(500);
 			p.println("<temp>35</temp>");
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 			p.println("<alarm>true</alarm> ");
 			Thread.sleep(2000);
 			p.println("<alarm>false</alarm> ");
 			p.println("<temp>28</temp>");
 			Thread.sleep(2000);
 			p.println("<temp>22</temp>");
-			Thread.sleep(2000);
+			Thread.sleep(3000);
 			p.println("<temp>20</temp>");
 			Thread.sleep(2000);
 			p.println("<temp>-7</temp>");
-			p.println("<alarm>true</alarm> ");
 			Thread.sleep(2000);
+			p.println("<temp>25</temp>");
+			Thread.sleep(5000);
+			p.println("<temp>10</temp>");
+			p.println("<alarm>true</alarm> ");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

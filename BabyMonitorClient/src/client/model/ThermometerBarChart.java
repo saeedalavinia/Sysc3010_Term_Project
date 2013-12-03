@@ -22,7 +22,10 @@ public class ThermometerBarChart {
 	private Integer temperature;
 	private boolean Farenheit = false;
 	private BMS_GUI gui;
-
+	private BarRenderer3D renderer;
+	private NumberAxis numberaxis ;
+	private CategoryPlot categoryplot;
+	
 	@SuppressWarnings("deprecation")
 	public ThermometerBarChart(BMS_GUI gui) {
 
@@ -31,8 +34,8 @@ public class ThermometerBarChart {
 				true, false);
 
 		// cutomize plot
-		CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
-		BarRenderer3D renderer = new BarRenderer3D();
+		categoryplot = (CategoryPlot) chart.getPlot();
+		renderer = new BarRenderer3D();
 		renderer.setMaximumBarWidth(0.7);
 		renderer.setPaint(ChartColor.DARK_YELLOW);
 		renderer.setBase(-10);
@@ -41,7 +44,7 @@ public class ThermometerBarChart {
 		categoryplot.setRenderer(renderer);
 
 		// customize number axis
-		NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();
+		numberaxis = (NumberAxis) categoryplot.getRangeAxis();
 		numberaxis.setUpperMargin(60);
 		numberaxis.setRange(-10, 50);
 
@@ -74,50 +77,43 @@ public class ThermometerBarChart {
 					"Temp");
 
 		}
+		
+		// equivalent to calling update() of the gui in an observer pattern ( from JFree Chart library) 
 		chart.fireChartChanged();
 	}
 
+	
+	// toggle logic for changing the units from  C to F and vise-versa
+	@SuppressWarnings("deprecation")
 	public void toggleUnits() {
 
 		if (!this.isFarenheit()) {
 			// cutomize plot
-
-			CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
-			BarRenderer3D renderer = new BarRenderer3D();
-			renderer.setMaximumBarWidth(0.7);
 			renderer.setPaint(ChartColor.RED);
 			renderer.setBase(-10);
-			renderer.setBaseItemLabelPaint(Color.orange);
-			renderer.setBaseSeriesVisible(false);
-			categoryplot.setRenderer(renderer);
+
 
 			// customize number axis
-			NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();
-			numberaxis.setUpperMargin(60);
 			numberaxis.setRange(0, 100);
 			numberaxis.setAttributedLabel("Fahrenheit");
 			this.setFarenheit(true);
+			
 		} else {
-			CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
-			BarRenderer3D renderer = new BarRenderer3D();
-			renderer.setMaximumBarWidth(0.7);
 			renderer.setPaint(ChartColor.DARK_YELLOW);
 			renderer.setBase(-10);
-			renderer.setBaseItemLabelPaint(Color.orange);
-			renderer.setBaseSeriesVisible(false);
-			categoryplot.setRenderer(renderer);
+
 
 			// customize number axis
-			NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();
-			numberaxis.setUpperMargin(60);
 			numberaxis.setRange(-10, 100);
 			numberaxis.setAttributedLabel("Centigrade");
 			this.setFarenheit(false);
 
 		}
-
+		// equivalent to calling update() of the gui in an observer pattern ( from JFree Chart library) 
 		chart.fireChartChanged();
 	}
+	
+	// getters and setters
 
 	public Integer getTemperature() {
 		return temperature;
@@ -141,6 +137,30 @@ public class ThermometerBarChart {
 
 	public void setGui(BMS_GUI gui) {
 		this.gui = gui;
+	}
+
+	public BarRenderer3D getRenderer() {
+		return renderer;
+	}
+
+	public void setRenderer(BarRenderer3D renderer) {
+		this.renderer = renderer;
+	}
+
+	public NumberAxis getNumberaxis() {
+		return numberaxis;
+	}
+
+	public void setNumberaxis(NumberAxis numberaxis) {
+		this.numberaxis = numberaxis;
+	}
+
+	public CategoryPlot getCategoryplot() {
+		return categoryplot;
+	}
+
+	public void setCategoryplot(CategoryPlot categoryplot) {
+		this.categoryplot = categoryplot;
 	}
 
 }
