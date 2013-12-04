@@ -2,7 +2,10 @@
 # Written By Riyadh
 import wiringpi2 as wiringpi
 from time import sleep
+from xmlpar import xmlpar
 st=False
+
+id,name,pmax,pmin,dmax,dmin= xmlpar()
 def setup():
         wiringpi.wiringPiSetupGpio()
         wiringpi.pinMode(25,1)        #red light
@@ -14,16 +17,16 @@ def setup():
 def Led_con(Temp):
 
                       
-           if(Temp>=40):
+           if(Temp>=dmax):
               flash(3)
               wiringpi.digitalWrite(25,0)   #red is off
               wiringpi.digitalWrite(24,0)   #green is off
               
-           elif(Temp<=10):
+           elif(Temp<=dmin):
               flash(3)
               wiringpi.digitalWrite(25,0)   #red is off
               wiringpi.digitalWrite(24,0)   #green is off
-           elif(Temp>= 20 and Temp<= 27):
+           elif(Temp>= pmin and Temp<= pmax):
                    wiringpi.digitalWrite(25,0)   #red is off
                    wiringpi.digitalWrite(24,0)   #green is off
 

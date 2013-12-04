@@ -1,0 +1,13 @@
+<settings>
+  <device id="1">
+    <name>
+      <first>temp sensor</first>
+    </name>
+    <info>
+      <maxtemp>24</maxtemp>
+      <mintemp>19</mintemp>
+      <devicemax>53</devicemax>
+      <devicemin>-10</devicemin>
+    </info>
+  </device>
+</settings>
